@@ -12,15 +12,9 @@
    go run ./cmd
    ```
 
-3. **Seed data (optional)**  
+3. **Seed data (for testing)**  
    ```sh
-   ./seeder.sh
-   ```
-   Or manually run the SQL in [migrations/init.sql](migrations/init.sql).
-
-4. **Reindex posts to Elasticsearch (after seeding SQL directly):**  
-   ```sh
-   curl -X POST http://localhost:8080/internal/reindex
+   chmod +x seeder.sh && ./seeder.sh
    ```
 
 ## API Endpoints
