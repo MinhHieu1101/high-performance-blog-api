@@ -17,31 +17,6 @@
    chmod +x seeder.sh && ./seeder.sh
    ```
 
-## API Endpoints
-
-- **Create Post:**  
-  `POST /posts`  
-  Body: `{ "title": "...", "content": "...", "tags": ["tag1", "tag2"] }`
-
-- **Get Post (with Redis cache):**  
-  `GET /posts/:id`
-
-- **Update Post (invalidates cache, reindexes ES):**  
-  `PUT /posts/:id`  
-  Body: `{ "title": "...", "content": "...", "tags": ["tag1"] }`
-
-- **Search by Tag (Postgres):**  
-  `GET /posts/search-by-tag?tag=go`
-
-- **Full-text Search (Elasticsearch):**  
-  `GET /posts/search?q=your+query`
-
-- **List All Posts:**  
-  `GET /posts`
-
-- **Reindex All Posts to Elasticsearch:**  
-  `POST /internal/reindex`
-
 ## Testing
 
 You can test the API using `curl` or any API client (e.g., Postman):
@@ -50,7 +25,7 @@ You can test the API using `curl` or any API client (e.g., Postman):
   ```sh
   curl -X POST http://localhost:8080/posts \
     -H "Content-Type: application/json" \
-    -d '{"title":"Test","content":"Hello","tags":["go"]}'
+    -d '{"title":"Howdy there","content":"Great day for fishing aint it?","tags":["note","greetings"]}'
   ```
 
 - **Get a post:**  
@@ -62,22 +37,32 @@ You can test the API using `curl` or any API client (e.g., Postman):
   ```sh
   curl -X PUT http://localhost:8080/posts/1 \
     -H "Content-Type: application/json" \
-    -d '{"title":"Updated"}'
+    -d '{"title":"Updated","content":"Fairly adjusted content","tags":["note","update"]}'
   ```
 
 - **Search by tag:**  
   ```sh
-  curl "http://localhost:8080/posts/search-by-tag?tag=go"
+  curl "http://localhost:8080/posts/search-by-tag?tag=note"
   ```
 
-- **Full-text search:**  
+- **Full-text search (Elasticsearch):**  
   ```sh
-  curl "http://localhost:8080/posts/search?q=go"
+  curl "http://localhost:8080/posts/search?q=fishing"
+  ```
+
+- **List all posts:**  
+  ```sh
+  curl http://localhost:8080/posts
+  ```
+
+- **Reindex all posts to Elasticsearch:**  
+  ```sh
+  curl -X POST http://localhost:8080/internal/reindex
   ```
 
 ## Notes
 
-- If you change the schema or want to reset the DB, remove the Docker volume:
+- To change the schema or reset the DB, remove the Docker volume:
   ```sh
   docker compose down
   docker volume rm blog-api_pgdata
@@ -85,3 +70,8 @@ You can test the API using `curl` or any API client (e.g., Postman):
   ```
 
 - All services (Postgres, Redis, Elasticsearch) must be running for the API to work.
+
+- Verify only Docker Postgres is running
+  ```sh
+  netstat -ano | findstr 5432
+  ```
