@@ -70,7 +70,7 @@ func getPostHandler(c *gin.Context) {
 		}
 	}
 
-	id, _ := strconv.Atoi(idStr)
+	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
