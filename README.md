@@ -31,9 +31,16 @@ You can test the API using `curl` or any API client (e.g., Postman):
 
 - **Get a post:**
   ```sh
+  # before adding similar posts
   curl http://localhost:8080/posts/1
   ```
   <img width="850" height="293" alt="image" src="https://github.com/user-attachments/assets/3eacfd77-0ce7-489f-b44d-d03a0fa3b3d3" />
+
+  ```sh
+  # now it can get similar posts as well
+  curl http://localhost:8080/posts/16
+  ```
+  <img width="851" height="522" alt="image" src="https://github.com/user-attachments/assets/9387a2c6-4187-4b83-a966-b091e5e5bdf0" />
 
 - **Update a post:**
   ```sh
