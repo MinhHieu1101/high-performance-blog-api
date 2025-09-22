@@ -33,6 +33,7 @@ You can test the API using `curl` or any API client (e.g., Postman):
   ```sh
   curl http://localhost:8080/posts/1
   ```
+  <img width="850" height="293" alt="image" src="https://github.com/user-attachments/assets/3eacfd77-0ce7-489f-b44d-d03a0fa3b3d3" />
 
 - **Update a post:**
   ```sh
@@ -40,7 +41,7 @@ You can test the API using `curl` or any API client (e.g., Postman):
     -H "Content-Type: application/json" \
     -d '{"title":"Updated","content":"Fairly adjusted content","tags":["note","update"]}'
   ```
-  <img width="860" height="269" alt="image" src="https://github.com/user-attachments/assets/b96c4cf7-fdaa-4936-8b12-788c7ac15655" />
+  <img width="845" height="284" alt="image" src="https://github.com/user-attachments/assets/c1ab6ff7-d3c0-4fc5-8e35-f4ff31d0ffba" />
 
 - **Search by tag:**
   ```sh
