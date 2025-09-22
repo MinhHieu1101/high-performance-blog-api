@@ -2,17 +2,17 @@
 
 ## Quick Start
 
-1. **Start services**  
+1. **Start services**
    ```sh
    docker compose up -d
    ```
 
-2. **Run the API server**  
+2. **Run the API server**
    ```sh
    go run ./cmd
    ```
 
-3. **Seed data (for testing)**  
+3. **Seed data (for testing)**
    ```sh
    chmod +x seeder.sh && ./seeder.sh
    ```
@@ -21,41 +21,46 @@
 
 You can test the API using `curl` or any API client (e.g., Postman):
 
-- **Create a post:**  
+- **Create a post:**
   ```sh
   curl -X POST http://localhost:8080/posts \
     -H "Content-Type: application/json" \
     -d '{"title":"Howdy there","content":"Great day for fishing aint it?","tags":["note","greetings"]}'
   ```
+  <img width="851" height="281" alt="image" src="https://github.com/user-attachments/assets/c5f35c9c-4e8f-4288-b1dd-fe53ff0d1acc" />
 
-- **Get a post:**  
+- **Get a post:**
   ```sh
   curl http://localhost:8080/posts/1
   ```
 
-- **Update a post:**  
+- **Update a post:**
   ```sh
   curl -X PUT http://localhost:8080/posts/1 \
     -H "Content-Type: application/json" \
     -d '{"title":"Updated","content":"Fairly adjusted content","tags":["note","update"]}'
   ```
+  <img width="860" height="269" alt="image" src="https://github.com/user-attachments/assets/b96c4cf7-fdaa-4936-8b12-788c7ac15655" />
 
-- **Search by tag:**  
+- **Search by tag:**
   ```sh
   curl "http://localhost:8080/posts/search-by-tag?tag=note"
   ```
+  <img width="853" height="480" alt="image" src="https://github.com/user-attachments/assets/3e5cc324-7abb-4ec2-be67-57a4306b3a1e" />
 
-- **Full-text search (Elasticsearch):**  
+- **Full-text search (Elasticsearch):**
   ```sh
   curl "http://localhost:8080/posts/search?q=fishing"
   ```
+  <img width="854" height="331" alt="image" src="https://github.com/user-attachments/assets/cfb08b91-c35c-4ad3-aa79-9f8cac6c8cdb" />
 
-- **List all posts:**  
+- **List all posts:**
   ```sh
   curl http://localhost:8080/posts
   ```
+  <img width="850" height="789" alt="image" src="https://github.com/user-attachments/assets/bdae392d-eeb1-4152-a88a-2ee1574f10f2" />
 
-- **Reindex all posts to Elasticsearch:**  
+- **Reindex all posts to Elasticsearch:**
   ```sh
   curl -X POST http://localhost:8080/internal/reindex
   ```
