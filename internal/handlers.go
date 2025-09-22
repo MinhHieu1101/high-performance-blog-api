@@ -56,7 +56,7 @@ func createPostHandler(c *gin.Context) {
 }
 
 // -- get post: cache-aside
-func getPostHandler(c *gin.Context) {
+/* func getPostHandler(c *gin.Context) {
 	idStr := c.Param("id")
 	cacheKey := "post:" + idStr
 
@@ -88,6 +88,47 @@ func getPostHandler(c *gin.Context) {
 	b, _ := json.Marshal(p)
 	RedisClient.Set(AppCtx, cacheKey, b, cacheTTL)
 	c.JSON(http.StatusOK, p)
+} */
+
+// -- get similar posts: return the post and a small list of related posts by tags
+func getPostHandler(c *gin.Context) {
+	idStr := c.Param("id")
+	cacheKey := "post:" + idStr
+
+	// try redis first
+	val, err := RedisClient.Get(AppCtx, cacheKey).Result()
+	var p Post
+	if err == nil {
+		// cache hit
+		if err := json.Unmarshal([]byte(val), &p); err == nil {
+			// get related posts and return combined
+			related, _ := findRelatedPostsByTags(p.Tags, p.ID, 5)
+			c.JSON(http.StatusOK, gin.H{"post": p, "related": related})
+			return
+		}
+	}
+
+	// cache miss -> load from DB
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid post id"})
+		return
+	}
+	if err := DB.First(&p, id).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	b, _ := json.Marshal(p)
+	RedisClient.Set(AppCtx, cacheKey, b, cacheTTL)
+
+	related, _ := findRelatedPostsByTags(p.Tags, p.ID, 5)
+
+	c.JSON(http.StatusOK, gin.H{"post": p, "related": related})
 }
 
 // -- update post: invalidate cache + reindex
